@@ -15,6 +15,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
 
   useEffect(() => {
+    sessionStorage.setItem("shoppingCart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  useEffect(() => {
     try {
       const cartItems = sessionStorage.getItem("shoppingCart")
         ? JSON.parse(sessionStorage.getItem("shoppingCart")!)
@@ -24,10 +28,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       dispatch({ type: "Get Cart", payload: [] });
     }
   }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem("shoppingCart", JSON.stringify(state.cart));
-  }, [state.cart]);
 
   const addCart = (payload: Cart) => {
     const exist = state.cart.some((item) => item.title === payload.title);
@@ -51,6 +51,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "Add Cart", payload: cartUpdate });
   };
 
+  const cleanCart = () => {
+    dispatch({ type: "Get Cart", payload: [] });
+  };
+
   const deleteCart = (title: string) => {
     const exist = state.cart.some((item) => item.title === title);
     if (!exist) {
@@ -67,6 +71,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         // Methods
         addCart,
         deleteCart,
+        cleanCart,
       }}
     >
       {children}

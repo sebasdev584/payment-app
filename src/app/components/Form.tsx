@@ -8,9 +8,16 @@ import { object } from "yup";
 import usePayment from "../hooks/usePayment";
 import { Payment } from "../lib/types";
 import Button from "./ui/Button";
+import { useContext } from "react";
+import { CartContext, ContextProps } from "../context/CartContext";
 
-const FormComponent = () => {
+const FormComponent = ({
+  setShowModal,
+}: {
+  setShowModal: (showModal: boolean) => void;
+}) => {
   const { addPayment, payment, loading, error } = usePayment();
+  const { cleanCart } = useContext<ContextProps>(CartContext);
 
   const handleSubmit = (
     values: Payment,
@@ -19,7 +26,11 @@ const FormComponent = () => {
     addPayment(values);
     if (!error && payment !== null) {
       resetForm();
+      cleanCart();
       toast.success("Pago realizado correctamente");
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
     }
     if (error) {
       toast.error("Error al realizar el pago");
@@ -29,7 +40,7 @@ const FormComponent = () => {
 
   return (
     <>
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={2000} />
       {!loading && (
         <Formik
           enableReinitialize={true}
