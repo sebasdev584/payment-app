@@ -4,8 +4,13 @@ import { ReactNode, useContext, useState } from "react";
 import Button from "./Button";
 import { CartContext, ContextProps } from "@/app/context/CartContext";
 
-export default function Modal({ children }: { children: ReactNode }) {
-  const [showModal, setShowModal] = useState(false);
+type Props = {
+  children: ReactNode;
+  setShowModal: (show: boolean) => void;
+  showModal: boolean;
+};
+
+export default function Modal({ children, setShowModal, showModal }: Props) {
   const { cart } = useContext<ContextProps>(CartContext);
   return (
     <>
