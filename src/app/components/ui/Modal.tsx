@@ -1,18 +1,22 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import Button from "./Button";
+import { CartContext, ContextProps } from "@/app/context/CartContext";
 
 export default function Modal({ children }: { children: ReactNode }) {
   const [showModal, setShowModal] = useState(false);
+  const { cart } = useContext<ContextProps>(CartContext);
   return (
     <>
-      <Button
-        onClick={() => setShowModal(true)}
-        className="p-2 mt-2 mb-2 font-medium rounded-md bg-green-400 hover:bg-green-700 ease-linear transition-all duration-150"
-      >
-        <em>Pagar con tarjeta de crédito</em>
-      </Button>
+      {cart.length && (
+        <Button
+          onClick={() => setShowModal(true)}
+          className="p-2 mt-2 mb-2 font-medium rounded-md bg-green-400 hover:bg-green-700 ease-linear transition-all duration-150"
+        >
+          <em>Pagar con tarjeta de crédito</em>
+        </Button>
+      )}
       {showModal ? (
         <>
           <div className="justify-center items-center lg:flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

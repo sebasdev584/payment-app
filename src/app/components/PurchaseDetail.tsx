@@ -19,7 +19,7 @@ const PurchaseDetail = ({ flag }: { flag: boolean }) => {
 
   return (
     <div className="flex sm:mt-10 lg:mt-0 flex-col lg:min-w-96 sm:w.20 rounded-md shadow-md p-3 gap-y-4 max-h-96 overflow-y-auto">
-      {cart ? (
+      {cart.length ? (
         <>
           <span className="font-semibold">Detalle de tu compra</span>
           <span>
